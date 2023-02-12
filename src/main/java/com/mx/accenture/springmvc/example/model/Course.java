@@ -24,6 +24,10 @@ public class Course implements Serializable {
     @Column(name = "number_lessons")
     private int numberLessons;
 
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
+
 
     public int getIdCourse() {
         return idCourse;
@@ -71,5 +75,13 @@ public class Course implements Serializable {
 
     public void setNumberLessons(Integer numberLessons) {
         this.numberLessons = numberLessons;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }

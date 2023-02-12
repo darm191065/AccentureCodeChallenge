@@ -4,11 +4,9 @@ import com.mx.accenture.springmvc.example.dto.CourseDTO;
 import com.mx.accenture.springmvc.example.service.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,18 +14,36 @@ import java.util.List;
 @RequestMapping("/course")
 public class CourseController {
 
-    @Autowired
     @Qualifier("courseServiceImpl")
-    private ICourseService courseService;
+    private final ICourseService courseService;
+
+    @Autowired
+    public CourseController(ICourseService courseService) {
+        this.courseService = courseService;
+    }
 
     @GetMapping("/list")
-    public List<CourseDTO> listCourse(Model model){
-        List<CourseDTO> listRepository = courseService.listCourse();
-        return listRepository;
+    public ResponseEntity<List<CourseDTO>> listCourse(){
+        return  ResponseEntity.ok(courseService.listCourse());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CourseDTO> getCourseById(@PathVariable Integer id) {
+        return ResponseEntity.ok(courseService.getCourseById(id));
+    }
+    @PostMapping("/add")
+    public ResponseEntity<CourseDTO> addCourse(@RequestBody CourseDTO courseDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addCourse(courseDTO));
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<CourseDTO> updateCourse(@RequestBody CourseDTO courseDTO, @PathVariable Integer id) {
+        return ResponseEntity.ok(courseService.updateCourse(courseDTO, id));
     }
 
     @GetMapping("/delete/{id}")
-    public void deleteCourse(@PathVariable String id){
+    public ResponseEntity<String> deleteCourse(@PathVariable Integer id){
         courseService.deleteCourse(id);
+        return ResponseEntity.ok("Course deleted!!");
     }
 }

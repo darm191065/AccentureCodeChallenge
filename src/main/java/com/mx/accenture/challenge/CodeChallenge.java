@@ -31,12 +31,29 @@ Example:
 */
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CodeChallenge {
     public Integer[]  resolve(Integer[] numbers, Integer target){
-        Integer[] solution = new Integer[0];
-        //TODO Implement your solution here.
 
-        return solution;
+        if (numbers.length == 0) {
+            return null;
+        }
+
+        Map<Integer, Integer> m = new HashMap<>();
+        Integer[] solution = new Integer[2];
+
+        for (int i : numbers) {
+            int aux = target - i;
+            if (m.containsKey(aux)) {
+                solution[0] = aux;
+                solution[1] = i;
+                return solution;
+            }
+            m.put(i, i);
+        }
+
+        return null;
     }
 }

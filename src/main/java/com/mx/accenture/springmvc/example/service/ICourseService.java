@@ -1,13 +1,18 @@
 package com.mx.accenture.springmvc.example.service;
 
 import com.mx.accenture.springmvc.example.dto.CourseDTO;
-import com.mx.accenture.springmvc.example.model.Course;
 
 import java.util.List;
 
 public interface ICourseService {
 
-    public List<Course> listCourse();
+    public List<CourseDTO> listCourse();
+
+    CourseDTO getCourseById(Integer id);
+
+    CourseDTO addCourse(CourseDTO courseDTO);
+
+    CourseDTO updateCourse(CourseDTO courseDTO, Integer id);
 
     public void deleteCourse(int idCourse);
 
